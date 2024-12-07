@@ -258,7 +258,7 @@ class JumbleCloud {
     this.x = this.randomSeed * window.innerWidth;
     this.y = Math.random() * window.innerHeight;
     this.age = 0;
-    this.lifespan = 100 + this.randomSeed * 200;
+    this.lifespan = 100 + this.randomSeed * 300;
     this.container = document.querySelector(".glitch-container");
 
     // Get a random poem line and clean it to get distinct words
@@ -295,7 +295,7 @@ class JumbleCloud {
 
       // Add random font size variation
       const baseFontSize = 16;
-      const fontVariation = Math.random() * 4 - 2;
+      const fontVariation = Math.random() * 8 - 2;
       const fontSize = `${baseFontSize + fontVariation}px`;
 
       element.style.fontSize = fontSize;
@@ -353,7 +353,9 @@ class JumbleCloud {
       word.echo1.textContent = displayText;
       word.echo1.style.transform = `translate3d(${x + 9}px, ${y}px, 0)`;
       word.echo1.style.background = `linear-gradient(${word.phase * 360}deg, 
-        rgba(255,255,${Math.sin(word.phase * 5) * 255},0.5), 
+        rgba(${Math.sin(word.phase * 5) * 255},${
+        Math.sin(word.phase * 5) * 255
+      },${Math.sin(word.phase * 5) * 255},0.5), 
         rgba(${Math.cos(word.phase * 3) * 255},165,${
         Math.sin(word.phase * 2) * 255
       },0.5), 
@@ -365,7 +367,9 @@ class JumbleCloud {
       word.echo2.textContent = displayText;
       word.echo2.style.transform = `translate3d(${x - 7}px, ${y}px, 0)`;
       word.echo2.style.background = `linear-gradient(${-word.phase * 360}deg, 
-        rgba(${Math.sin(word.phase * 2) * 255},255,255,0.5), 
+        rgba(${Math.sin(word.phase * 2) * 255},${
+        Math.sin(word.phase * 2) * 255
+      },${Math.sin(word.phase * 2) * 255},0.5), 
         rgba(${Math.cos(word.phase * 4) * 255},128,${
         Math.sin(word.phase * 3) * 255
       },0.5), 
