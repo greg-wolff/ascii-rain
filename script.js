@@ -273,7 +273,7 @@ class JumbleCloud {
       text: word,
       windowSize: 4 + Math.floor(Math.random() * 6), // Window sizes of 1-3
       position: 0,
-      speed: 0.05 + Math.random() * 0.1, // Different speeds for each word
+      speed: 0.05 + Math.random() * 0.4, // Different speeds for each word
       phase: 0,
       element: null,
       echo1: null,
