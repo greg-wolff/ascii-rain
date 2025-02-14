@@ -33,6 +33,38 @@ const POST_PROCESSING = {
   vignette: false,
 };
 
+// Add sticker image paths
+const STICKER_PATHS = [
+  "stickers/a.png",
+  "stickers/b.png",
+  "stickers/924C3EC5-FC46-4D94-B0C7-347FE5206680.png",
+  "stickers/58C741D0-7E2A-4CD6-AB15-2A61C00970EB.png",
+  "stickers/D542A35E-C75E-4FA7-85E2-DCFC1D30FEE1.png",
+  "stickers/4407BC41-706E-40E5-857C-CF1B93DA7718.png",
+  "stickers/57FB4B98-EA55-4EDA-9E77-C09C786CD92A.png",
+  "stickers/7B2944F3-A137-43A8-89ED-4EFD292826C1.png",
+  "stickers/C742D0D1-68B9-402E-BA94-10A5F18FA77B.png",
+  "stickers/F1C9146A-268F-4212-91B3-2AC01008D837.png",
+  "stickers/C84D768F-44E7-415B-8FB7-2D05D0FFA181.png",
+  "stickers/2547B42B-1D83-47F5-B636-6334FBC9D1E7.png",
+  "stickers/54EF767B-4EA6-48BF-BE61-62AD93BB1002.png",
+  "stickers/27FE3739-3F6B-4EEA-9F3B-6E4D749E4781.png",
+  "stickers/33C1771F-F678-4A2B-8CB2-F5F0CA5CD02F.png",
+  "stickers/3AA29303-0E5A-4338-A80D-4A2C90C6545C.png",
+  "stickers/201C1E04-FDCB-42C9-A566-AC6C24BBE360.png",
+  "stickers/97F5DC33-2379-4404-91AB-99F66200FC66.png",
+  "stickers/D22BE9BD-BA30-4331-9C89-BE37CC8AF234.png",
+  "stickers/730674B1-BDDD-4B11-8FB1-098F14A3363E.png",
+  "stickers/1B43A1DB-8A0D-4343-8E5D-873D89491A76.png",
+  "stickers/D871F752-F554-4A08-B12E-2EB8C053B8C5.png",
+  "stickers/8B6B05F2-0169-48C8-864B-4FD480331342.png",
+  "stickers/0A2C9DE3-9172-4F79-9D5F-4313A96A48C7.png",
+  "stickers/501CF1EF-9079-4AB7-86FA-151CACAF41D5.png",
+  "stickers/907C8223-DA81-4590-ADE5-B748A766CF99.png",
+];
+
+const MAX_STICKER_CLOUDS = 3;
+
 class GlitchCloud {
   constructor() {
     this.randomSeed = Math.random();
@@ -398,9 +430,170 @@ class JumbleCloud {
   }
 }
 
+class StickerCloud {
+  constructor() {
+    this.randomSeed = Math.random();
+    this.x = this.randomSeed * window.innerWidth;
+    this.y = Math.random() * window.innerHeight;
+    this.age = 0;
+    this.lifespan = 250;
+    this.displayDuration = 100;
+    this.dissolveDuration = 75;
+    this.container = document.querySelector(".glitch-container");
+    this.size = 100 + Math.random() * 100;
+    this.pixelSize = 1;
+    this.createSticker();
+  }
+
+  createSticker() {
+    // Create wrapper for sticker
+    this.wrapper = document.createElement("div");
+    this.wrapper.className = "sticker-wrapper";
+
+    // Create the sticker image
+    this.element = document.createElement("img");
+    this.element.className = "sticker-element";
+
+    // Select random sticker
+    const stickerPath =
+      STICKER_PATHS[Math.floor(Math.random() * STICKER_PATHS.length)];
+    this.element.src = stickerPath;
+
+    // Set initial styles
+    this.wrapper.style.position = "absolute";
+    this.wrapper.style.left = `${this.x}px`;
+    this.wrapper.style.top = `${this.y}px`;
+    this.wrapper.style.width = `${this.size}px`;
+    this.wrapper.style.height = `${this.size}px`;
+
+    this.element.style.width = "100%";
+    this.element.style.height = "100%";
+    this.element.style.opacity = "1";
+
+    // Create canvas for pixel effect
+    this.canvas = document.createElement("canvas");
+    this.canvas.className = "dissolve-canvas";
+    this.canvas.style.position = "absolute";
+    this.canvas.style.left = "0";
+    this.canvas.style.top = "0";
+    this.canvas.style.width = "100%";
+    this.canvas.style.height = "100%";
+    this.canvas.width = Math.ceil(this.size);
+    this.canvas.height = Math.ceil(this.size);
+
+    this.ctx = this.canvas.getContext("2d");
+    this.ctx.fillStyle = "#1a1a1f";
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+    // Create pixel positions array
+    const totalPixels = this.canvas.width * this.canvas.height;
+    this.pixelPositions = Array.from({ length: totalPixels }, (_, i) => ({
+      x: i % this.canvas.width,
+      y: Math.floor(i / this.canvas.width),
+    }));
+
+    // Shuffle pixel positions
+    for (let i = this.pixelPositions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.pixelPositions[i], this.pixelPositions[j]] = [
+        this.pixelPositions[j],
+        this.pixelPositions[i],
+      ];
+    }
+
+    this.wrapper.appendChild(this.element);
+    this.wrapper.appendChild(this.canvas);
+    this.container.appendChild(this.wrapper);
+  }
+
+  update() {
+    this.age++;
+
+    // Calculate which phase we're in
+    if (this.age <= this.dissolveDuration) {
+      // Dissolve in phase
+      const progress = this.age / this.dissolveDuration;
+      const pixelsToShow = Math.floor(this.pixelPositions.length * progress);
+
+      // Clear the pixels in batches
+      const imageData = this.ctx.getImageData(
+        0,
+        0,
+        this.canvas.width,
+        this.canvas.height
+      );
+      const data = imageData.data;
+
+      for (let i = 0; i < pixelsToShow; i++) {
+        const pos = this.pixelPositions[i];
+        const idx = (pos.y * this.canvas.width + pos.x) * 4;
+        data[idx + 3] = 0; // Set alpha to 0
+      }
+
+      this.ctx.putImageData(imageData, 0, 0);
+    } else if (this.age >= this.lifespan - this.dissolveDuration) {
+      // Dissolve out phase
+      const progress =
+        (this.age - (this.lifespan - this.dissolveDuration)) /
+        this.dissolveDuration;
+      const pixelsToHide = Math.floor(this.pixelPositions.length * progress);
+
+      // Add back the pixels in batches
+      const imageData = this.ctx.getImageData(
+        0,
+        0,
+        this.canvas.width,
+        this.canvas.height
+      );
+      const data = imageData.data;
+
+      for (let i = 0; i < pixelsToHide; i++) {
+        const pos = this.pixelPositions[i];
+        const idx = (pos.y * this.canvas.width + pos.x) * 4;
+        data[idx + 3] = 255; // Set alpha to fully opaque
+      }
+
+      this.ctx.putImageData(imageData, 0, 0);
+    }
+
+    if (this.age >= this.lifespan) {
+      this.destroy();
+      return false;
+    }
+
+    return true;
+  }
+
+  destroy() {
+    this.wrapper.remove();
+  }
+}
+
+// Add SVG filter for noise effect
+function setupNoiseFilter() {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("style", "position: absolute; width: 0; height: 0");
+  svg.innerHTML = `
+    <defs>
+      <filter id="noise-filter">
+        <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+        <feColorMatrix type="saturate" values="0"/>
+        <feComponentTransfer>
+          <feFuncR type="discrete" tableValues="0 .5 1 1"/>
+          <feFuncG type="discrete" tableValues="0 .5 1 1"/>
+          <feFuncB type="discrete" tableValues="0 .5 1 1"/>
+        </feComponentTransfer>
+        <feComposite operator="in" in2="SourceGraphic"/>
+      </filter>
+    </defs>
+  `;
+  document.body.appendChild(svg);
+}
+
 // Update cloud management
 const glitchClouds = [];
 const jumbleClouds = [];
+const stickerClouds = [];
 
 function createClouds() {
   if (glitchClouds.length < MAX_GLITCH_CLOUDS) {
@@ -408,6 +601,9 @@ function createClouds() {
   }
   if (jumbleClouds.length < MAX_JUMBLE_CLOUDS) {
     jumbleClouds.push(new JumbleCloud());
+  }
+  if (stickerClouds.length < MAX_STICKER_CLOUDS) {
+    stickerClouds.push(new StickerCloud());
   }
 }
 
@@ -427,6 +623,15 @@ function updateClouds() {
     if (!isAlive) {
       jumbleClouds[i].destroy();
       jumbleClouds.splice(i, 1);
+    }
+  }
+
+  // Update sticker clouds
+  for (let i = stickerClouds.length - 1; i >= 0; i--) {
+    const isAlive = stickerClouds[i].update();
+    if (!isAlive) {
+      stickerClouds[i].destroy();
+      stickerClouds.splice(i, 1);
     }
   }
 
@@ -467,6 +672,7 @@ function setupPostProcessing() {
 
 // Add this line before starting the animation
 setupPostProcessing();
+setupNoiseFilter();
 
 // Start the animation
 setInterval(createClouds, 1000);
