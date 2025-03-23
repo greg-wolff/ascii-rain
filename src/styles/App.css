@@ -1,0 +1,129 @@
+:root {
+  --background-color: #1a1a1f;
+  --text-color: #e9d6ee;
+  --accent-color: #584955;
+  --terminal-bg: #1a1a1f;
+  --terminal-text: #8a7b8a;
+  --terminal-error: #ff6b6b;
+  --terminal-success: #69db7c;
+  --terminal-system: #4dabf7;
+}
+
+body {
+  margin: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Fira Code', monospace;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 1.2rem;
+  padding: 8px 16px;
+  border: 1px solid var(--text-color);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: var(--text-color);
+  color: var(--background-color);
+}
+
+/* Terminal styles */
+.terminal {
+  width: 100%;
+  height: 100vh;
+  background-color: var(--terminal-bg);
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.terminal-window {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  font-family: 'Fira Code', monospace;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.terminal-line {
+  margin-bottom: 8px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.terminal-line.system {
+  color: var(--terminal-system);
+}
+
+.terminal-line.error {
+  color: var(--terminal-error);
+}
+
+.terminal-line.success {
+  color: var(--terminal-success);
+}
+
+.terminal-line.input {
+  color: var(--terminal-text);
+}
+
+.terminal-input-line {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.prompt {
+  color: var(--terminal-text);
+  margin-right: 8px;
+}
+
+.terminal-input-line input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--terminal-text);
+  font-family: 'Fira Code', monospace;
+  font-size: 1rem;
+  outline: none;
+  caret-color: var(--terminal-text);
+}
+
+/* Add a subtle scrollbar for the terminal window */
+.terminal-window::-webkit-scrollbar {
+  width: 8px;
+}
+
+.terminal-window::-webkit-scrollbar-track {
+  background: var(--terminal-bg);
+}
+
+.terminal-window::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 4px;
+}
+
+.terminal-window::-webkit-scrollbar-thumb:hover {
+  background: var(--text-color);
+} 

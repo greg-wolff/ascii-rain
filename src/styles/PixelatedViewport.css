@@ -1,0 +1,185 @@
+.pixelated-viewport-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  z-index: 0;
+}
+
+.original-content {
+  /* Original content will be rendered normally */
+  position: static;
+  width: 100%;
+  z-index: 1;
+}
+
+.pixelated-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9900;
+  pointer-events: none; /* Allow clicks to pass through to the underlying content */
+  image-rendering: pixelated; /* Create sharp pixels instead of smooth transitions */
+  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  background-color: #1a1a1f;
+}
+
+.glitch-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* Keep it behind everything, it's just used for ghosting effects */
+  pointer-events: none;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  opacity: 0; /* Hidden from view */
+  display: none; /* Completely removed from flow */
+}
+
+.debug-panel {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 300px;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: #ccc;
+  padding: 15px;
+  border-radius: 5px;
+  font-family: monospace;
+  font-size: 12px;
+  z-index: 9999;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.debug-panel h3 {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+  border-bottom: 1px solid #444;
+  padding-bottom: 5px;
+}
+
+.debug-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.debug-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.debug-control label {
+  width: 120px;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: help;
+  border-bottom: 1px dotted rgba(255, 255, 255, 0.3);
+}
+
+.debug-control label:hover {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+.debug-control input[type="range"] {
+  flex: 1;
+  height: 8px;
+  background: #333;
+  border-radius: 4px;
+  outline: none;
+}
+
+.debug-control span {
+  width: 40px;
+  text-align: right;
+  font-size: 11px;
+}
+
+.debug-control select {
+  flex: 1;
+  background: #333;
+  color: #ccc;
+  border: none;
+  border-radius: 4px;
+  padding: 2px 5px;
+  outline: none;
+}
+
+.debug-stats {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid #444;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* Animation effects for debugging visuals */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.debug-panel.active {
+  animation: blink 1s infinite;
+}
+
+.debug-presets {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 10px;
+}
+
+.preset-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.preset-buttons button {
+  background-color: #333;
+  color: #ccc;
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.preset-buttons button:hover {
+  background-color: #444;
+  color: #fff;
+}
+
+.preset-buttons button:active {
+  background-color: #666;
+  transform: translateY(1px);
+}
+
+.error-message {
+  color: #ff5555;
+  margin-top: 5px;
+  padding: 5px;
+  background-color: rgba(255, 0, 0, 0.1);
+  border-radius: 3px;
+  font-size: 11px;
+} 

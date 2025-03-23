@@ -1,0 +1,211 @@
+.styled-text {
+  display: inline-block;
+}
+
+.styled-text .char {
+  display: inline-block;
+  position: relative;
+}
+
+/* Color Effects */
+@keyframes flash1 {
+  0%, 45%, 100% { color: #9b4f96; }
+  50%, 95% { color: #e6b3e6; }
+}
+
+@keyframes flash2 {
+  0%, 45%, 100% { color: #ff0000; }
+  50%, 95% { color: #000000; }
+}
+
+@keyframes flash3 {
+  0%, 45%, 100% { color: #90EE90; }
+  50%, 95% { color: #006400; }
+}
+
+@keyframes glow1 {
+  0% { color: #ff0000; }
+  25% { color: #ffa500; }
+  50% { color: #ffff00; }
+  75% { color: #00ff00; }
+  100% { color: #00ffff; }
+}
+
+@keyframes glow2 {
+  0% { color: #ff0000; }
+  33% { color: #ff00ff; }
+  66% { color: #0000ff; }
+  100% { color: #8b0000; }
+}
+
+@keyframes glow3 {
+  0% { color: #ffffff; }
+  33% { color: #00ff00; }
+  66% { color: #ffffff; }
+  100% { color: #00ffff; }
+}
+
+@keyframes rainbow {
+  0% { color: #ff0000; }
+  15% { color: #ff7f00; }
+  30% { color: #ffff00; }
+  45% { color: #00ff00; }
+  60% { color: #0000ff; }
+  75% { color: #4b0082; }
+  90% { color: #9400d3; }
+  100% { color: #ff0000; }
+}
+
+/* Motion Effects */
+@keyframes wave {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes wave2 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(2px, -3px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translate(0, 0) rotate(0); }
+  25% { transform: translate(2px, 2px) rotate(5deg); }
+  50% { transform: translate(-2px, -2px) rotate(-5deg); }
+  75% { transform: translate(-2px, 2px) rotate(5deg); }
+}
+
+@keyframes slide {
+  0% { transform: translateY(-20px); opacity: 0; }
+  50% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(20px); opacity: 0; }
+}
+
+@keyframes scroll {
+  0% { transform: translateX(20px); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateX(-20px); opacity: 0; }
+}
+
+/* Base animation settings */
+.styled-text .char {
+  --color-animation: none;
+  --motion-animation: none;
+  animation: var(--color-animation), var(--motion-animation);
+}
+
+/* Color effect classes */
+.flash1 .char { --color-animation: flash1 2s step-end infinite; }
+.flash2 .char { --color-animation: flash2 2s step-end infinite; }
+.flash3 .char { --color-animation: flash3 2s step-end infinite; }
+.glow1 .char { --color-animation: glow1 2s infinite; }
+.glow2 .char { --color-animation: glow2 2s infinite; }
+.glow3 .char { --color-animation: glow3 2s infinite; }
+.rainbow .char { --color-animation: rainbow 2s infinite; }
+
+/* Motion effect classes */
+.wave .char { --motion-animation: wave 1s infinite ease-in-out; }
+.wave2 .char { --motion-animation: wave2 1s infinite ease-in-out; }
+.shake .char { --motion-animation: shake 0.5s infinite; }
+.slide .char { --motion-animation: slide 2s infinite; }
+.scroll .char { --motion-animation: scroll 2s infinite; }
+
+/* Combined animations */
+.rainbow.wave .char {
+  animation: rainbow 2s infinite, wave 1s infinite ease-in-out;
+}
+
+.rainbow.wave2 .char {
+  animation: rainbow 2s infinite, wave2 1s infinite ease-in-out;
+}
+
+.rainbow.shake .char {
+  animation: rainbow 2s infinite, shake 0.5s infinite;
+}
+
+.wave.shake .char {
+  animation: wave 1s infinite ease-in-out, shake 0.5s infinite;
+}
+
+.wave2.shake .char {
+  animation: wave2 1s infinite ease-in-out, shake 0.5s infinite;
+}
+
+/* Flash combinations */
+.flash1.wave .char {
+  animation: flash1 2s step-end infinite, wave 1s infinite ease-in-out;
+}
+
+.flash1.shake .char {
+  animation: flash1 2s step-end infinite, shake 0.5s infinite;
+}
+
+.flash2.wave .char {
+  animation: flash2 2s step-end infinite, wave 1s infinite ease-in-out;
+}
+
+.flash2.shake .char {
+  animation: flash2 2s step-end infinite, shake 0.5s infinite;
+}
+
+.flash3.wave .char {
+  animation: flash3 2s step-end infinite, wave 1s infinite ease-in-out;
+}
+
+.flash3.shake .char {
+  animation: flash3 2s step-end infinite, shake 0.5s infinite;
+}
+
+/* Glow combinations */
+.glow1.wave .char {
+  animation: glow1 2s infinite, wave 1s infinite ease-in-out;
+}
+
+.glow1.shake .char {
+  animation: glow1 2s infinite, shake 0.5s infinite;
+}
+
+.glow2.wave .char {
+  animation: glow2 2s infinite, wave 1s infinite ease-in-out;
+}
+
+.glow2.shake .char {
+  animation: glow2 2s infinite, shake 0.5s infinite;
+}
+
+.glow3.wave .char {
+  animation: glow3 2s infinite, wave 1s infinite ease-in-out;
+}
+
+.glow3.shake .char {
+  animation: glow3 2s infinite, shake 0.5s infinite;
+}
+
+/* Triple combinations */
+.rainbow.wave.shake .char {
+  animation: rainbow 2s infinite, wave 1s infinite ease-in-out, shake 0.5s infinite;
+}
+
+.flash1.wave.shake .char {
+  animation: flash1 2s step-end infinite, wave 1s infinite ease-in-out, shake 0.5s infinite;
+}
+
+.flash2.wave.shake .char {
+  animation: flash2 2s step-end infinite, wave 1s infinite ease-in-out, shake 0.5s infinite;
+}
+
+.flash3.wave.shake .char {
+  animation: flash3 2s step-end infinite, wave 1s infinite ease-in-out, shake 0.5s infinite;
+}
+
+.glow1.wave.shake .char {
+  animation: glow1 2s infinite, wave 1s infinite ease-in-out, shake 0.5s infinite;
+}
+
+.glow2.wave.shake .char {
+  animation: glow2 2s infinite, wave 1s infinite ease-in-out, shake 0.5s infinite;
+}
+
+.glow3.wave.shake .char {
+  animation: glow3 2s infinite, wave 1s infinite ease-in-out, shake 0.5s infinite;
+} 
