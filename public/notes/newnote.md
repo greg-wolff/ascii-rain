@@ -1,3 +1,5 @@
+date: 2025-03-27
+
 # ive spent just over a thousand days in los angeles
 i cant resist the urge to look back and notice
 what’s hidden and what’s revealed
