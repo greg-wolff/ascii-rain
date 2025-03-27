@@ -15,18 +15,15 @@ function Entries({ updatePixelConfig }) {
 
   // Update pixel size when terminal is shown/hidden
   useEffect(() => {
-    if (updatePixelConfig) {
-      if (showTerminal) {
-        // When overlay terminal is open
-        updatePixelConfig({ pixelSize: 2, showOriginal: true });
-      } else if (selectedEntry) {
-        // When an entry is selected
-        updatePixelConfig({ pixelSize: 4, showOriginal: true });
-      } else {
-        // Default for entries page
-        updatePixelConfig({ pixelSize: 3, showOriginal: true });
-      }
-    }
+    if (!updatePixelConfig) return;
+
+    const config = showTerminal
+      ? { pixelSize: 2, showOriginal: true }
+      : selectedEntry
+      ? { pixelSize: 4, showOriginal: true }
+      : { pixelSize: 3, showOriginal: true };
+
+    updatePixelConfig(config);
   }, [showTerminal, selectedEntry, updatePixelConfig]);
 
   useEffect(() => {
